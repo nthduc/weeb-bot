@@ -45,10 +45,10 @@ module.exports = (client) => {
     const fields = [];
 
     const embed = new EmbedBuilder()
-      .setAuthor({ name: "Now Playing" })
+      .setAuthor({ name: "Đang phát" })
       .setColor(client.config.EMBED_COLORS.BOT_EMBED)
       .setDescription(`[${song.title}](${song.uri})`)
-      .setFooter({ text: `Requested By: ${song.requester}` });
+      .setFooter({ text: `Yêu cầu bởi chủ nhân: ${song.requester}` });
 
     if (song.sourceName === "youtube") {
       const identifier = song.identifier;
@@ -57,14 +57,14 @@ module.exports = (client) => {
     }
 
     fields.push({
-      name: "Song Duration",
+      name: "Thời lượng bài hát",
       value: "`" + prettyMs(song.length, { colonNotation: true }) + "`",
       inline: true,
     });
 
     if (queue.tracks.length > 0) {
       fields.push({
-        name: "Position in Queue",
+        name: "Vị trí trong hàng chờ",
         value: (queue.tracks.length + 1).toString(),
         inline: true,
       });
