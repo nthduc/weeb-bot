@@ -99,7 +99,7 @@ async function play({ member, guild, channel }, query) {
           break;
 
         default:
-          return "🚫 An error occurred while searching for the song";
+          return "🚫 Đã xảy ra lỗi khi tìm kiếm bài hát";
       }
 
       if (!tracks) guild.client.logger.debug({ query, item });
@@ -129,17 +129,17 @@ async function play({ member, guild, channel }, query) {
 
         default:
           guild.client.logger.debug("Unknown loadType", res);
-          return "🚫 An error occurred while searching for the song";
+          return "🚫 Đã xảy ra lỗi khi tìm kiếm bài hát";
       }
 
       if (!tracks) guild.client.logger.debug({ query, res });
     }
   } catch (error) {
     guild.client.logger.error("Search Exception", error);
-    return "🚫 An error occurred while searching for the song";
+    return "🚫 Đã xảy ra lỗi khi tìm kiếm bài hát";
   }
 
-  if (!tracks) return "🚫 An error occurred while searching for the song";
+  if (!tracks) return "🚫 Đã xảy ra lỗi khi tìm kiếm bài hát";
 
   if (tracks.length === 1) {
     const track = tracks[0];
