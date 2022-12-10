@@ -13,7 +13,7 @@ const levels = {
  */
 module.exports = {
   name: "bassboost",
-  description: "set bassboost level",
+  description: "thay đổi mức độ âm trầm !",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -26,7 +26,7 @@ module.exports = {
     options: [
       {
         name: "level",
-        description: "bassboost level",
+        description: "mức độ âm trầm (bass)",
         type: ApplicationCommandOptionType.String,
         required: true,
         choices: [
