@@ -8,7 +8,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
  */
 module.exports = {
   name: "seek",
-  description: "sets the playing track's position to the specified position",
+  description: "đặt vị trí của bản nhạc đang phát thành vị trí đã chỉ định",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -20,7 +20,7 @@ module.exports = {
     options: [
       {
         name: "time",
-        description: "The time you want to seek to.",
+        description: "Thời gian bạn muốn tìm kiếm.",
         type: ApplicationCommandOptionType.String,
         required: true,
       },
@@ -49,7 +49,7 @@ function seekTo({ client, guildId }, time) {
   const seekTo = durationToMillis(time);
 
   if (seekTo > player.queue.current.length) {
-    return "The duration you provide exceeds the duration of the current track";
+    return "Thời lượng bạn cung cấp vượt quá thời lượng của bản nhạc hiện tại";
   }
 
   player.seek(seekTo);
