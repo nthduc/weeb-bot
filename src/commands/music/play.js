@@ -14,7 +14,7 @@ const search_prefix = {
  */
 module.exports = {
   name: "play",
-  description: "play a song from youtube",
+  description: "Phát một bài hát từ youtube",
   category: "MUSIC",
   botPermissions: ["EmbedLinks"],
   command: {
@@ -52,7 +52,7 @@ module.exports = {
  * @param {string} query
  */
 async function play({ member, guild, channel }, query) {
-  if (!member.voice.channel) return "🚫 You need to join a voice channel first";
+  if (!member.voice.channel) return "🚫 Trước tiên, chủ nhân cần tham gia một kênh thoại";
 
   let player = guild.client.musicManager.getPlayer(guild.id);
   if (player && !guild.members.me.voice.channel) {
@@ -61,7 +61,7 @@ async function play({ member, guild, channel }, query) {
   }
 
   if (player && member.voice.channel !== guild.members.me.voice.channel) {
-    return "🚫 You must be in the same voice channel as mine";
+    return "🚫 Chủ nhân phải ở trong cùng một kênh thoại với em";
   }
 
   let embed = new EmbedBuilder().setColor(EMBED_COLORS.BOT_EMBED);
@@ -71,7 +71,7 @@ async function play({ member, guild, channel }, query) {
   try {
     if (guild.client.musicManager.spotify.isSpotifyUrl(query)) {
       if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
-        return "🚫 Spotify songs cannot be played. Please contact the bot owner";
+        return "🚫 Không thể phát các bài hát Spotify. Vui lòng liên hệ với Dusk";
       }
 
       const item = await guild.client.musicManager.spotify.load(query);
@@ -110,10 +110,10 @@ async function play({ member, guild, channel }, query) {
       switch (res.loadType) {
         case "LOAD_FAILED":
           guild.client.logger.error("Search Exception", res.exception);
-          return "🚫 There was an error while searching";
+          return "🚫 Đã xảy ra lỗi khi tìm kiếm !";
 
         case "NO_MATCHES":
-          return `No results found matching ${query}`;
+          return `Không tìm thấy kết quả phù hợp ${query}`;
 
         case "PLAYLIST_LOADED":
           tracks = res.tracks;
@@ -144,23 +144,23 @@ async function play({ member, guild, channel }, query) {
   if (tracks.length === 1) {
     const track = tracks[0];
     if (!player?.playing && !player?.paused && !player?.queue.tracks.length) {
-      embed.setAuthor({ name: "Added Track to queue" });
+      embed.setAuthor({ name: "Đã thêm bài hát vào hàng chờ ạ ^^" });
     } else {
       const fields = [];
       embed
-        .setAuthor({ name: "Added Track to queue" })
+        .setAuthor({ name: "Đã thêm bài hát vào hàng chờ ạ ^^" })
         .setDescription(`[${track.info.title}](${track.info.uri})`)
-        .setFooter({ text: `Requested By: ${member.user.tag}` });
+        .setFooter({ text: `Yêu cầu bởi chủ nhân: ${member.user.tag}` });
 
       fields.push({
-        name: "Song Duration",
+        name: "Thời lượng bài hát",
         value: "`" + prettyMs(track.info.length, { colonNotation: true }) + "`",
         inline: true,
       });
 
       if (player?.queue?.tracks?.length > 0) {
         fields.push({
-          name: "Position in Queue",
+          name: "Vị trí trong hàng chờ",
           value: (player.queue.tracks.length + 1).toString(),
           inline: true,
         });
@@ -169,16 +169,16 @@ async function play({ member, guild, channel }, query) {
     }
   } else {
     embed
-      .setAuthor({ name: "Added Playlist to queue" })
+      .setAuthor({ name: "Đã thêm Danh sách phát vào hàng chờ ạ ^^" })
       .setDescription(description)
       .addFields(
         {
-          name: "Enqueued",
+          name: "Thêm",
           value: `${tracks.length} songs`,
           inline: true,
         },
         {
-          name: "Playlist duration",
+          name: "Thời lượng danh sách phát",
           value:
             "`" +
             prettyMs(
@@ -189,7 +189,7 @@ async function play({ member, guild, channel }, query) {
           inline: true,
         }
       )
-      .setFooter({ text: `Requested By: ${member.user.tag}` });
+      .setFooter({ text: `Yêu cầu bởi chủ nhân: ${member.user.tag}` });
   }
 
   // create a player and/or join the member's vc
