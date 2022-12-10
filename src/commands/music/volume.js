@@ -6,7 +6,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
  */
 module.exports = {
   name: "volume",
-  description: "set the music player volume",
+  description: "đặt âm lượng máy nghe nhạc",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -18,7 +18,7 @@ module.exports = {
     options: [
       {
         name: "amount",
-        description: "Enter a value to set [0 to 100]",
+        description: "Nhập một giá trị để đặt [0 đến 100]",
         type: ApplicationCommandOptionType.Integer,
         required: false,
       },
@@ -44,9 +44,9 @@ module.exports = {
 async function volume({ client, guildId }, volume) {
   const player = client.musicManager.getPlayer(guildId);
 
-  if (!volume) return `> The player volume is \`${player.volume}\`.`;
-  if (volume < 1 || volume > 100) return "you need to give me a volume between 1 and 100.";
+  if (!volume) return `> Âm lượng hiện tại là \`${player.volume}\`.`;
+  if (volume < 1 || volume > 100) return "bạn cần nhập cho tôi âm lượng từ 1 đến 100.";
 
   await player.setVolume(volume);
-  return `🎶 Music player volume is set to \`${volume}\`.`;
+  return `🎶 Âm lượng của trình phát nhạc được đặt thành \`${volume}\`.`;
 }
