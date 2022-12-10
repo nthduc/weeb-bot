@@ -5,7 +5,7 @@ const { musicValidations } = require("@helpers/BotUtils");
  */
 module.exports = {
   name: "skip",
-  description: "skip the current song",
+  description: "bỏ qua bài hát hiện tại",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -34,8 +34,8 @@ function skip({ client, guildId }) {
   const player = client.musicManager.getPlayer(guildId);
 
   // check if current song is playing
-  if (!player.queue.current) return "⏯️ There is no song currently being played";
+  if (!player.queue.current) return "⏯️ Không có bài hát hiện đang được phát !";
 
   const { title } = player.queue.current;
-  return player.queue.next() ? `⏯️ ${title} was skipped.` : "⏯️ There is no song to skip.";
+  return player.queue.next() ? `⏯️ ${title} đã được bỏ qua.` : "⏯️ Không có bài hát nào để bỏ qua.";
 }
