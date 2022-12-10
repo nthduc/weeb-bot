@@ -19,7 +19,7 @@ const search_prefix = {
  */
 module.exports = {
   name: "search",
-  description: "search for matching songs on youtube",
+  description: "tìm kiếm các bài hát phù hợp trên youtube",
   category: "MUSIC",
   botPermissions: ["EmbedLinks"],
   command: {
@@ -32,7 +32,7 @@ module.exports = {
     options: [
       {
         name: "query",
-        description: "song to search",
+        description: "bài hát để tìm kiếm",
         type: ApplicationCommandOptionType.String,
         required: true,
       },
@@ -58,7 +58,7 @@ module.exports = {
  * @param {string} query
  */
 async function search({ member, guild, channel }, query) {
-  if (!member.voice.channel) return "🚫 You need to join a voice channel first";
+  if (!member.voice.channel) return "🚫 Trước tiên, chủ nhân cần tham gia một kênh thoại";
 
   let player = guild.client.musicManager.getPlayer(guild.id);
   if (player && !guild.members.me.voice.channel) {
@@ -66,7 +66,7 @@ async function search({ member, guild, channel }, query) {
     await guild.client.musicManager.destroyPlayer(guild.id);
   }
   if (player && member.voice.channel !== guild.members.me.voice.channel) {
-    return "🚫 You must be in the same voice channel as mine";
+    return "🚫 Chủ nhân phải ở trong cùng một kênh thoại với em";
   }
 
   let res;
@@ -75,7 +75,7 @@ async function search({ member, guild, channel }, query) {
       /^https?:\/\//.test(query) ? query : `${search_prefix[MUSIC.DEFAULT_SOURCE]}:${query}`
     );
   } catch (err) {
-    return "🚫 There was an error while searching";
+    return "🚫 Đã xảy ra lỗi khi tìm kiếm";
   }
 
   let embed = new EmbedBuilder().setColor(EMBED_COLORS.BOT_EMBED);
@@ -83,28 +83,28 @@ async function search({ member, guild, channel }, query) {
 
   switch (res.loadType) {
     case "LOAD_FAILED":
-      guild.client.logger.error("Search Exception", res.exception);
-      return "🚫 There was an error while searching";
+      guild.client.logger.error("Tìm kiếm ngoại lệ", res.exception);
+      return "🚫 Đã xảy ra lỗi khi tìm kiếm";
 
     case "NO_MATCHES":
-      return `No results found matching ${query}`;
+      return `Không tìm thấy kết quả phù hợp ${query}`;
 
     case "TRACK_LOADED": {
       const [track] = res.tracks;
       tracks = [track];
       if (!player?.playing && !player?.paused && !player?.queue.tracks.length) {
-        embed.setAuthor({ name: "Added Song to queue" });
+        embed.setAuthor({ name: "Đã thêm bài hát vào hàng chờ" });
         break;
       }
 
       const fields = [];
       embed
-        .setAuthor({ name: "Added Song to queue" })
+        .setAuthor({ name: "Đã thêm bài hát vào hàng chờ" })
         .setDescription(`[${track.info.title}](${track.info.uri})`)
         .setFooter({ text: `Requested By: ${member.user.tag}` });
 
       fields.push({
-        name: "Song Duration",
+        name: "Thời lượng bài hát",
         value: "`" + prettyMs(track.info.length, { colonNotation: true }) + "`",
         inline: true,
       });
@@ -112,7 +112,7 @@ async function search({ member, guild, channel }, query) {
       // if (typeof track.displayThumbnail === "function") embed.setThumbnail(track.displayThumbnail("hqdefault"));
       if (player?.queue?.tracks?.length > 0) {
         fields.push({
-          name: "Position in Queue",
+          name: "Vị trí trong hàng chờ",
           value: (player.queue.tracks.length + 1).toString(),
           inline: true,
         });
@@ -124,16 +124,16 @@ async function search({ member, guild, channel }, query) {
     case "PLAYLIST_LOADED":
       tracks = res.tracks;
       embed
-        .setAuthor({ name: "Added Playlist to queue" })
+        .setAuthor({ name: "Đã thêm Danh sách phát vào hàng chờ" })
         .setDescription(res.playlistInfo.name)
         .addFields(
           {
-            name: "Enqueued",
+            name: "Thêm vào",
             value: `${res.tracks.length} songs`,
             inline: true,
           },
           {
-            name: "Playlist duration",
+            name: "Thời lượng danh sách phát",
             value:
               "`" +
               prettyMs(
@@ -144,7 +144,7 @@ async function search({ member, guild, channel }, query) {
             inline: true,
           }
         )
-        .setFooter({ text: `Requested By: ${member.user.tag}` });
+        .setFooter({ text: `Yêu cầu bởi chủ nhân: ${member.user.tag}` });
       break;
 
     case "SEARCH_RESULT": {
@@ -160,7 +160,7 @@ async function search({ member, guild, channel }, query) {
       const menuRow = new ActionRowBuilder().addComponents(
         new StringSelectMenuBuilder()
           .setCustomId("search-results")
-          .setPlaceholder("Choose Search Results")
+          .setPlaceholder("Chọn Kết quả tìm kiếm")
           .setMaxValues(max)
           .addOptions(options)
       );
@@ -168,7 +168,7 @@ async function search({ member, guild, channel }, query) {
       const tempEmbed = new EmbedBuilder()
         .setColor(EMBED_COLORS.BOT_EMBED)
         .setAuthor({ name: "Search Results" })
-        .setDescription(`Please select the songs you wish to add to queue`);
+        .setDescription(`Vui lòng chọn các bài hát bạn muốn thêm vào hàng đợi`);
 
       const sentMsg = await channel.send({
         embeds: [tempEmbed],
@@ -183,7 +183,7 @@ async function search({ member, guild, channel }, query) {
         });
 
         await sentMsg.delete();
-        if (!response) return "🚫 You took too long to select the songs";
+        if (!response) return "🚫 Bạn mất quá nhiều thời gian để chọn bài hát";
 
         if (response.customId !== "search-results") return;
         const toAdd = [];
@@ -192,17 +192,17 @@ async function search({ member, guild, channel }, query) {
         // Only 1 song is selected
         if (toAdd.length === 1) {
           tracks = [toAdd[0]];
-          embed.setAuthor({ name: "Added Song to queue" });
+          embed.setAuthor({ name: "Đã thêm bài hát vào hàng chờ" });
         } else {
           tracks = toAdd;
           embed
             .setDescription(`🎶 Added ${toAdd.length} songs to queue`)
-            .setFooter({ text: `Requested By: ${member.user.tag}` });
+            .setFooter({ text: `Yêu cầu bởi: ${member.user.tag}` });
         }
       } catch (err) {
         console.log(err);
         await sentMsg.delete();
-        return "🚫 Failed to register your response";
+        return "🚫 Không thể đăng ký câu trả lời của bạn";
       }
     }
   }
