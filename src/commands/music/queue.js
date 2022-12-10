@@ -6,7 +6,7 @@ const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
  */
 module.exports = {
   name: "queue",
-  description: "displays the current music queue",
+  description: "hiển thị hàng chờ của bài hát hiện tại",
   category: "MUSIC",
   botPermissions: ["EmbedLinks"],
   command: {
@@ -18,7 +18,7 @@ module.exports = {
     options: [
       {
         name: "page",
-        description: "page number",
+        description: "số trang",
         type: ApplicationCommandOptionType.Integer,
         required: false,
       },
@@ -44,10 +44,10 @@ module.exports = {
  */
 function getQueue({ client, guild }, pgNo) {
   const player = client.musicManager.getPlayer(guild.id);
-  if (!player) return "🚫 There is no music playing in this guild.";
+  if (!player) return "🚫 Không có âm nhạc được phát trong kênh này !";
 
   const queue = player.queue;
-  const embed = new EmbedBuilder().setColor(EMBED_COLORS.BOT_EMBED).setAuthor({ name: `Queue for ${guild.name}` });
+  const embed = new EmbedBuilder().setColor(EMBED_COLORS.BOT_EMBED).setAuthor({ name: `Hàng chờ cho ${guild.name}` });
 
   // change for the amount of tracks per page
   const multiple = 10;
@@ -58,7 +58,7 @@ function getQueue({ client, guild }, pgNo) {
 
   const tracks = queue.tracks.slice(start, end);
 
-  if (queue.current) embed.addFields({ name: "Current", value: `[${queue.current.title}](${queue.current.uri})` });
+  if (queue.current) embed.addFields({ name: "Hiện tại", value: `[${queue.current.title}](${queue.current.uri})` });
   if (!tracks.length) embed.setDescription(`No tracks in ${page > 1 ? `page ${page}` : "the queue"}.`);
   else embed.setDescription(tracks.map((track, i) => `${start + ++i} - [${track.title}](${track.uri})`).join("\n"));
 

@@ -27,7 +27,7 @@ module.exports = {
     options: [
       {
         name: "query",
-        description: "song name or url",
+        description: "tên bài hát hoặc đường dẫn url",
         type: ApplicationCommandOptionType.String,
         required: true,
       },
