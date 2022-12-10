@@ -5,7 +5,7 @@ const { musicValidations } = require("@helpers/BotUtils");
  */
 module.exports = {
   name: "stop",
-  description: "stop the music player",
+  description: "dừng trình phát nhạc",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -34,5 +34,5 @@ async function stop({ client, guildId }) {
   const player = client.musicManager.getPlayer(guildId);
   player.disconnect();
   await client.musicManager.destroyPlayer(guildId);
-  return "🎶 The music player is stopped and queue has been cleared";
+  return "🎶 Trình phát nhạc đã dừng và hàng đợi đã bị xóa";
 }
