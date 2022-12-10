@@ -9,7 +9,7 @@ const BASE_URL = "https://some-random-api.ml/lyrics";
  */
 module.exports = {
     name: "lyric",
-    description: "find lyric of the song",
+    description: "tìm lời bài hát",
     category: "MUSIC",
     botPermissions: ["EmbedLinks"],
     command: {
@@ -23,7 +23,7 @@ module.exports = {
             {
                 name: "query",
                 type: ApplicationCommandOptionType.String,
-                description: "find lyric of the song",
+                description: "tìm lời bài hát",
                 required: true,
             },
         ],
@@ -32,7 +32,7 @@ module.exports = {
     async messageRun(message, args) {
         const choice = args.join(" ");
         if(!choice) {
-            return message.safeReply("Invalid Lyric selected.");
+            return message.safeReply("Đã chọn lời bài hát không hợp lệ.");
         }
         const response = await getLyric(message.author, choice);
         return message.safeReply(response);
@@ -60,7 +60,7 @@ async function getLyric(user, choice) {
       .setTitle(`${author} - ${title}`)
       .setThumbnail(thumbnail)
       .setDescription(lyrics)
-      .setFooter({ text: `Request By: ${user.tag}` });
+      .setFooter({ text: `Yêu cầu bởi chủ nhân ${user.tag}` });
 
     return { embeds: [embed] };
 }
