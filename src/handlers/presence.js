@@ -28,6 +28,9 @@ function updatePresence(client) {
 
       case "WATCHING":
         return ActivityType.Watching;
+
+      case "STREAMING":
+          return ActivityType.Streaming;
     }
   };
 
@@ -37,6 +40,7 @@ function updatePresence(client) {
       {
         name: message,
         type: getType(client.config.PRESENCE.TYPE),
+        url: 'https://www.twitch.tv'
       },
     ],
   });

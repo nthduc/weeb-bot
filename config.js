@@ -43,7 +43,7 @@ module.exports = {
   },
 
   ECONOMY: {
-    ENABLED: false,
+    ENABLED: true,
     CURRENCY: "₪",
     DAILY_COINS: 100, // coins to be received by daily command
     MIN_BEG_AMOUNT: 100, // minimum coins to be received when beg command is used
@@ -69,7 +69,7 @@ module.exports = {
   },
 
   GIVEAWAYS: {
-    ENABLED: false,
+    ENABLED: true,
     REACTION: "🎁",
     START_EMBED: "#FF468A",
     END_EMBED: "#FF468A",
@@ -105,7 +105,7 @@ module.exports = {
   PRESENCE: {
     ENABLED: true, // Whether or not the bot should update its status
     STATUS: "online", // The bot's status [online, idle, dnd, invisible]
-    TYPE: "WATCHING", // Status type for the bot [PLAYING | LISTENING | WATCHING | COMPETING]
+    TYPE: "STREAMING", // Status type for the bot [PLAYING | LISTENING | WATCHING | COMPETING]
     MESSAGE: "{members} members in {servers} servers", // Your bot status message
   },
 
@@ -127,7 +127,7 @@ module.exports = {
   },
 
   TICKET: {
-    ENABLED: false,
+    ENABLED: true,
     CREATE_EMBED: "#068ADD",
     CLOSE_EMBED: "#068ADD",
   },
