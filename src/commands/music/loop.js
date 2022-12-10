@@ -7,7 +7,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
  */
 module.exports = {
   name: "loop",
-  description: "loops the song or queue",
+  description: "lặp lại bài hát hoặc hàng chờ",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -21,7 +21,7 @@ module.exports = {
       {
         name: "type",
         type: ApplicationCommandOptionType.String,
-        description: "The entity you want to loop",
+        description: "bài hát hoặc playlist mà chủ nhân muốn lặp lại",
         required: false,
         choices: [
           {
@@ -61,12 +61,12 @@ function toggleLoop({ client, guildId }, type) {
   // track
   if (type === "track") {
     player.queue.setLoop(LoopType.Song);
-    return "Loop mode is set to `track`";
+    return "Chế độ lặp được đặt thành `track`";
   }
 
   // queue
   else if (type === "queue") {
     player.queue.setLoop(1);
-    return "Loop mode is set to `queue`";
+    return "Chế độ lặp được đặt thành `queue`";
   }
 }
