@@ -5,7 +5,7 @@ const { musicValidations } = require("@helpers/BotUtils");
  */
 module.exports = {
   name: "shuffle",
-  description: "shuffle the queue",
+  description: "xáo trộn hàng đợi",
   category: "MUSIC",
   validations: musicValidations,
   command: {
@@ -32,5 +32,5 @@ module.exports = {
 function shuffle({ client, guildId }) {
   const player = client.musicManager.getPlayer(guildId);
   player.queue.shuffle();
-  return "🎶 Queue has been shuffled";
+  return "🎶 Hàng đợi đã được xáo trộn";
 }
