@@ -9,7 +9,7 @@ const DUMMY_TOKEN = "MY_TOKEN_IS_SECRET";
  */
 module.exports = {
   name: "eval",
-  description: "evaluates something",
+  description: "đánh giá một cái gì đó",
   category: "OWNER",
   botPermissions: ["EmbedLinks"],
   command: {
@@ -32,7 +32,7 @@ module.exports = {
   async messageRun(message, args) {
     const input = args.join(" ");
 
-    if (!input) return message.safeReply("Please provide code to eval");
+    if (!input) return message.safeReply("Vui lòng cung cấp mã để đánh giá");
 
     let response;
     try {
